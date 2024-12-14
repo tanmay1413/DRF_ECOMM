@@ -1,0 +1,81 @@
+openapi: 3.0.3
+info:
+  title: DRF_ECOMM
+  version: 1.0.0
+  description: drf ecommerce website
+paths:
+  /api/brand/:
+    get:
+      operationId: api_brand_retrieve
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: api_brand_create
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          description: No response body
+  /api/category/:
+    get:
+      operationId: api_category_retrieve
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/product/:
+    get:
+      operationId: api_product_retrieve
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/product/by-category/{category}/all/:
+    get:
+      operationId: api_product_by_category_all_retrieve
+      parameters:
+      - in: path
+        name: category
+        schema:
+          type: string
+          pattern: ^[^\./]+$
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
