@@ -104,3 +104,5 @@ class ProductViewSet(viewsets.ModelViewSet):
         # Serialize and return the filtered products
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
+    
+    
