@@ -9,8 +9,8 @@ class CustomUser(AbstractUser):
     email = models.EmailField(max_length=100, unique=True)
     profile_image = models.ImageField(upload_to='profile_image',  null=False)
 
-    USERNAME_FIELD = 'email'  # Use email as the unique identifier
-    REQUIRED_FIELDS = ['phone_number']  # Additional fields required for superuser creation
+    USERNAME_FIELD = 'phone_number'   
+    REQUIRED_FIELDS = ['email']  # Additional fields required for superuser creation
 
     objects = UserManager()
 

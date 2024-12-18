@@ -32,3 +32,21 @@ class CustomUserSerializer(serializers.ModelSerializer):
         
         instance.save()
         return instance
+
+
+class UserLoginSerializer(serializers.Serializer):
+    # email = serializers.EmailField(required=False)
+    phone_number = serializers.CharField(required=False)
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        
+        # Ensure at phone_number identifier is provided
+        if not data.get('phone_number'):
+            raise serializers.ValidationError(" 'phone_number' is required.")
+
+        # Ensure password is provided
+        if not data.get('password'):
+            raise serializers.ValidationError("Password is required.")
+
+        return data
