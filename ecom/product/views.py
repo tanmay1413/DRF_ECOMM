@@ -6,8 +6,8 @@ from rest_framework.decorators import action
 
 from drf_spectacular.utils import extend_schema # type: ignore
 
-from .models import Brand, Product, Category
-from .serializers import BrandSerializer, ProductSerializer, CategorySerializer
+from .models import Brand, Product, Category , ProductImage, ProductDetail
+from .serializers import BrandSerializer, ProductSerializer, CategorySerializer , ProductDetailSerializer , ProductImageSerializer
 
 
 
@@ -39,28 +39,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
 
-
-# @extend_schema(
-#     tags=["Product"],  
-#     request=ProductSerializer, 
-#     responses=ProductSerializer,  
-#     description="CRUD operations for Product"
-# )
-# class ProductViewSet(viewsets.ModelViewSet):
-#     queryset = Product.objects.all()
-#     serializer_class = ProductSerializer
-    
-#     @action(
-#         detail=False,
-#         methods=["GET"],
-#         url_path=r"by-category/(?P<category>[^\./]+)/all",  # Match categories with spaces or special characters
-#         name="list_products_by_category",
-#     )
-#     def list_products_by_category(self, request, category=None):
-#         # Filter products by category name
-#         products = Product.objects.filter(category__name__iexact=category)  # Case-insensitive match
-#         serializer = ProductSerializer(products, many=True) 
-#         return Response(serializer.data)  
     
 @extend_schema(
     tags=["Product"],  
@@ -105,4 +83,20 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
     
+@extend_schema(
+    tags=["Product Detail"],  
+    request=ProductDetailSerializer, 
+    responses=ProductDetailSerializer,  
+    # description="Filter products by name, category, and/or brand   [use /?name=name, ?category=category, ?brand=brand]",
+    
+ 
+)
+class ProductDetailView(viewsets.ModelViewSet):
+    queryset = ProductDetail.objects.all()
+    serializer_class = ProductDetailSerializer
+    
+    
+class ProductImagesView(viewsets.ModelViewSet):
+    queryset = ProductImage.objects.all()
+    serializer_class = ProductImageSerializer
     
