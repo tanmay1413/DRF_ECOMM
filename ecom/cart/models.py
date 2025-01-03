@@ -16,7 +16,7 @@ class CartItems(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser , on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    price = models.IntegerField()
+    price = models.IntegerField(default=0)
     quantity = models.IntegerField(default=1)
 
 
@@ -30,12 +30,6 @@ def correct_items(sender, **kwargs):
         product = Product.objects.get(id=cart_items.product.id)
         p = cart_items.quantity * product.price
         CartItems.objects.filter(id=cart_items.id).update(price=p)
-        
-        cart = cart_items.cart
-        total_price = CartItems.objects.filter(cart=cart).aggregate(total=models.Sum('price'))['total'] 
-        # Update the total price in the cart
-        cart.total_price = total_price
-        cart.save()
-
+    
     except Product.DoesNotExist:
         print(f"Product with id {cart_items.product.id} does not exist.")

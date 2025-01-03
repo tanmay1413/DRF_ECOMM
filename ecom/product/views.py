@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 
 from drf_spectacular.utils import extend_schema # type: ignore
 
@@ -19,6 +20,7 @@ from .serializers import BrandSerializer, ProductSerializer, CategorySerializer 
     description="CRUD operations for Brand"
 )
 class BrandViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
 
@@ -26,15 +28,13 @@ class BrandViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema(
-    tags=["Category"],  # Groups this viewset in the API docs
-    request=CategorySerializer,  # Default request schema for all actions
-    responses=CategorySerializer,  # Default response schema for all actions
+    tags=["Category"],  
+    request=CategorySerializer,  
+    responses=CategorySerializer, 
     description="CRUD operations for Category"
 )
 class CategoryViewSet(viewsets.ModelViewSet):
-    """
-    A viewset that provides the standard actions for Category.
-    """
+    permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
@@ -46,9 +46,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
     responses=ProductSerializer(many=True),  
     description="Filter products by name, category, and/or brand   [use /?name=name, ?category=category, ?brand=brand]",
     
- 
 )
 class ProductViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -87,16 +87,19 @@ class ProductViewSet(viewsets.ModelViewSet):
     tags=["Product Detail"],  
     request=ProductDetailSerializer, 
     responses=ProductDetailSerializer,  
-    # description="Filter products by name, category, and/or brand   [use /?name=name, ?category=category, ?brand=brand]",
-    
- 
 )
 class ProductDetailView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = ProductDetail.objects.all()
     serializer_class = ProductDetailSerializer
     
-    
+@extend_schema(
+    tags=["Product Image"],  
+    request=ProductImageSerializer, 
+    responses=ProductImageSerializer,  
+) 
 class ProductImagesView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = ProductImage.objects.all()
     serializer_class = ProductImageSerializer
     
